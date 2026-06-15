@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>INTELECTO — Do Zero ao seu Jarvis em 2 dias | Workshop ao vivo</title>
+  <meta name="description" content="Workshop ao vivo de 2 dias: construa um assistente pessoal estilo Jarvis, multimodelo (OpenRouter, Ollama), com memória e segurança zero-trust. Online R$487 ou Presencial R$1987.">
+  <meta property="og:title" content="INTELECTO — Do Zero ao seu Jarvis em 2 dias">
+  <meta property="og:description" content="Construa um assistente estilo Jarvis, multimodelo, em 2 dias ao vivo. Sem framework inchado.">
+  <meta property="og:type" content="website">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: '#FACC15',
+            dark: { 900: '#111827', 800: '#1f2937', 700: '#374151', 600: '#4b5563' }
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .dark body { background-color: #111827; }
+    html:not(.dark) body { background-color: #f8fafc; color:#111827; }
+    html:not(.dark) .bg-dark-900 { background-color: #ffffff; }
+    html:not(.dark) .bg-dark-800 { background-color: #f9fafb; }
+    html:not(.dark) .bg-dark-700 { background-color: #f3f4f6; }
+    html:not(.dark) .bg-dark-600 { background-color: #e5e7eb; }
+    html:not(.dark) .border-dark-600 { border-color: #e5e7eb; }
+    html:not(.dark) .border-dark-700 { border-color: #e5e7eb; }
+    html:not(.dark) .text-neutral-100 { color:#111827; }
+    html:not(.dark) .text-neutral-300 { color:#374151; }
+    html:not(.dark) .text-neutral-400 { color:#4b5563; }
+    html:not(.dark) .bg-dark-900\/95 { background-color: rgba(255,255,255,0.95); }
+    html:not(.dark) [class*="bg-gradient-to"] { background-image:none !important; }
+    html:not(.dark) .text-amber-400, html:not(.dark) .text-yellow-400 { color:#92400e; }
+    html:not(.dark) .text-sky-400 { color:#0369a1; }
+    html:not(.dark) .hover\:text-sky-300:hover { color:#0284c7; }
+    html:not(.dark) .bg-amber-500\/10 { background-color:rgba(217,119,6,0.08); }
+    html:not(.dark) .bg-sky-500\/10 { background-color:rgba(2,132,199,0.08); }
+    html:not(.dark) .bg-emerald-500\/10 { background-color:rgba(5,150,105,0.08); }
+    .price-glow { box-shadow: 0 0 0 1px rgba(250,204,21,0.4), 0 20px 60px -20px rgba(250,204,21,0.35); }
+    .grad-text { background:linear-gradient(90deg,#FACC15,#38bdf8); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    html { scroll-behavior:smooth; }
+  </style>
+</head>
+<body class="bg-dark-900 text-neutral-100 min-h-screen">
+
+  <!-- NAV -->
+  <nav class="sticky top-0 z-50 bg-dark-900/95 backdrop-blur-sm border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between items-center h-14">
+        <div class="flex items-center space-x-4">
+          <a href="#topo" class="flex items-center space-x-2 text-yellow-400 hover:text-yellow-300">
+            <span class="text-2xl">🤖</span>
+            <span class="font-bold text-lg hidden sm:inline">INTELECTO</span>
+          </a>
+          <span class="text-neutral-600">|</span>
+          <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 text-sm font-medium">INEMA.CLUB</a>
+        </div>
+        <div class="flex items-center space-x-1 sm:space-x-3">
+          <a href="#precos" class="hidden sm:inline text-sm text-neutral-300 hover:text-yellow-400 transition-colors">Preços</a>
+          <a href="https://inema.vip?plano=online" target="_blank" class="bg-yellow-400 hover:bg-yellow-300 text-dark-900 font-bold text-sm px-4 py-2 rounded-lg transition-colors">Garantir vaga</a>
+          <button id="theme-toggle" class="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors ml-1">
+            <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
+            </svg>
+            <svg id="theme-toggle-light-icon" class="hidden w-5 h-5 text-neutral-300" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header id="topo" class="relative bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800 py-20 sm:py-28 border-b border-dark-600 overflow-hidden">
+    <div class="absolute inset-0 opacity-20" style="background-image:radial-gradient(circle at 20% 20%, rgba(250,204,21,0.25), transparent 40%), radial-gradient(circle at 80% 60%, rgba(56,189,248,0.2), transparent 45%);"></div>
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
+      <span class="inline-flex items-center gap-2 bg-amber-500/10 text-yellow-400 border border-amber-500/30 rounded-full px-4 py-1.5 text-sm font-semibold mb-6">⚡ Workshop ao vivo · 2 dias · vagas limitadas</span>
+      <h1 class="text-4xl sm:text-6xl font-extrabold leading-tight tracking-tight">
+        Do <span class="grad-text">zero ao seu Jarvis</span><br class="hidden sm:block"> em 2 dias
+      </h1>
+      <p class="mt-6 text-lg sm:text-xl text-neutral-300 max-w-3xl mx-auto">
+        Aprenda a construir um assistente pessoal estilo Jarvis — rodando no Telegram, com <strong class="text-neutral-100">diversos modelos</strong>, memória e segurança de verdade. Sem framework inchado: você escolhe as features como numa mercearia.
+      </p>
+      <div class="mt-9 flex flex-col sm:flex-row gap-3 justify-center items-center">
+        <a href="#precos" class="w-full sm:w-auto bg-yellow-400 hover:bg-yellow-300 text-dark-900 font-bold text-lg px-8 py-4 rounded-xl transition-colors shadow-lg shadow-yellow-400/20">Garantir minha vaga →</a>
+        <a href="#construir" class="w-full sm:w-auto border border-dark-600 hover:border-yellow-400 text-neutral-200 font-semibold text-lg px-8 py-4 rounded-xl transition-colors">Ver o que você constrói</a>
+      </div>
+      <p class="mt-5 text-sm text-neutral-400">Online <strong class="text-neutral-200">R$487</strong> · Presencial <strong class="text-neutral-200">R$1987</strong></p>
+    </div>
+  </header>
+
+  <!-- STATS BAR -->
+  <section class="border-b border-dark-600 bg-dark-900">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-px">
+      <div class="py-6 text-center"><div class="text-3xl font-extrabold text-yellow-400">2 dias</div><div class="text-sm text-neutral-400 mt-1">ao vivo</div></div>
+      <div class="py-6 text-center"><div class="text-3xl font-extrabold text-yellow-400">6 trilhas</div><div class="text-sm text-neutral-400 mt-1">do zero ao expert</div></div>
+      <div class="py-6 text-center"><div class="text-3xl font-extrabold text-yellow-400">100+</div><div class="text-sm text-neutral-400 mt-1">modelos (OpenRouter)</div></div>
+      <div class="py-6 text-center"><div class="text-3xl font-extrabold text-yellow-400">8</div><div class="text-sm text-neutral-400 mt-1">corredores de features</div></div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA / PROMESSA -->
+  <section class="py-16 sm:py-20 bg-dark-800 border-b border-dark-600">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl sm:text-4xl font-extrabold">Frameworks de IA são <span class="text-rose-400">inchados</span>. O seu Jarvis não precisa ser.</h2>
+      <p class="mt-5 text-lg text-neutral-300">A maioria dos "agentes" exige instalar uma torre de dependências, aprender uma DSL e ficar refém de um framework monolítico. No INTELECTO você aprende o oposto: montar um assistente <strong class="text-neutral-100">peça por peça</strong>, entendendo cada componente e usando o Claude Code pra construir junto com você.</p>
+      <div class="mt-10 grid sm:grid-cols-3 gap-4 text-left">
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-5"><div class="text-2xl mb-2">🧩</div><h3 class="font-bold">Você entende tudo</h3><p class="text-sm text-neutral-400 mt-1">Arquitetura de 5 componentes, sem caixa-preta.</p></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-5"><div class="text-2xl mb-2">🛒</div><h3 class="font-bold">Escolhe as features</h3><p class="text-sm text-neutral-400 mt-1">Identidade, memória, canais, segurança — só o que você quer.</p></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-5"><div class="text-2xl mb-2">🚀</div><h3 class="font-bold">Sai com algo rodando</h3><p class="text-sm text-neutral-400 mt-1">Um assistente funcionando no Telegram ao final.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FLUXO 5 PASSOS -->
+  <section class="py-16 sm:py-20 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">O fluxo de 5 passos</h2>
+        <p class="mt-3 text-neutral-400">Como sua ideia vira um assistente funcionando — você faz isso ao vivo no workshop.</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center"><div class="text-yellow-400 font-extrabold text-2xl">1</div><div class="text-3xl my-2">🛒</div><h3 class="font-bold text-sm">Selecionar ingredientes</h3><p class="text-xs text-neutral-400 mt-1">As features do seu Jarvis</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center"><div class="text-yellow-400 font-extrabold text-2xl">2</div><div class="text-3xl my-2">📄</div><h3 class="font-bold text-sm">Gerar documento</h3><p class="text-xs text-neutral-400 mt-1"><code>ingredients.md</code></p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center"><div class="text-yellow-400 font-extrabold text-2xl">3</div><div class="text-3xl my-2">🤖</div><h3 class="font-bold text-sm">Passar ao Claude Code</h3><p class="text-xs text-neutral-400 mt-1">"Leia e construa"</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center"><div class="text-yellow-400 font-extrabold text-2xl">4</div><div class="text-3xl my-2">💬</div><h3 class="font-bold text-sm">Responder perguntas</h3><p class="text-xs text-neutral-400 mt-1">Docker? Qual modelo?</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-5 text-center"><div class="text-yellow-400 font-extrabold text-2xl">5</div><div class="text-3xl my-2">🚀</div><h3 class="font-bold text-sm">Assistente rodando</h3><p class="text-xs text-neutral-400 mt-1">No Telegram, agora</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O QUE VOCE CONSTROI -->
+  <section id="construir" class="py-16 sm:py-20 bg-dark-800 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">O que você vai construir</h2>
+        <p class="mt-3 text-neutral-400 max-w-2xl mx-auto">Um assistente pessoal de verdade — multimodelo, com memória e blindado.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-6"><div class="text-3xl mb-3">💬</div><h3 class="font-bold">Nos seus canais</h3><p class="text-sm text-neutral-400 mt-2">Telegram, WhatsApp, Discord e voz — o Jarvis vive onde você já está.</p></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-6"><div class="text-3xl mb-3">🔗</div><h3 class="font-bold">Diversos modelos</h3><p class="text-sm text-neutral-400 mt-2">OpenRouter (100+ modelos) e Ollama local. Troca o cérebro sem reescrever nada.</p></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-6"><div class="text-3xl mb-3">🧠</div><h3 class="font-bold">Memória própria</h3><p class="text-sm text-neutral-400 mt-2">SQLite FTS5 + BM25: ele lembra de você, das conversas e do contexto.</p></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-xl p-6"><div class="text-3xl mb-3">🛡</div><h3 class="font-bold">Segurança zero-trust</h3><p class="text-sm text-neutral-400 mt-2">Proteção contra prompt injection, criptografia, sandbox e gates de aprovação.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 TRILHAS -->
+  <section id="conteudo" class="py-16 sm:py-20 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">As 6 trilhas do curso</h2>
+        <p class="mt-3 text-neutral-400">Do iniciante ao expert em segurança de IA. Cada trilha é independente e se conecta ao todo.</p>
+      </div>
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6"><div class="flex items-center justify-between"><span class="text-3xl">🧠</span><span class="text-xs text-neutral-500">Iniciante · ~3h</span></div><h3 class="font-bold mt-3">1 · Fundamentos</h3><p class="text-sm text-neutral-400 mt-1">Filosofia sem framework inchado, arquitetura dos 5 componentes e setup do ambiente.</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6"><div class="flex items-center justify-between"><span class="text-3xl">🧬</span><span class="text-xs text-neutral-500">Iniciante · ~3h</span></div><h3 class="font-bold mt-3">2 · Identidade e Canais</h3><p class="text-sm text-neutral-400 mt-1">SOUL.md, perfis intercambiáveis, Telegram, WhatsApp, Discord e memória SQLite.</p></div>
+        <div class="bg-dark-800 border-2 border-yellow-400/60 rounded-xl p-6 relative"><span class="absolute -top-3 left-4 bg-yellow-400 text-dark-900 text-xs font-bold px-2 py-0.5 rounded">PRINCIPAL</span><div class="flex items-center justify-between"><span class="text-3xl">🛡</span><span class="text-xs text-neutral-500">Avançado · ~5h</span></div><h3 class="font-bold mt-3">3 · Segurança Zero-Trust</h3><p class="text-sm text-neutral-400 mt-1">Prompt injection, Fernet + PBKDF2, WASM sandbox, gates de aprovação e audit trail.</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6"><div class="flex items-center justify-between"><span class="text-3xl">🔗</span><span class="text-xs text-neutral-500">Intermediário · ~4h</span></div><h3 class="font-bold mt-3">4 · Memória e Integrações</h3><p class="text-sm text-neutral-400 mt-1">OpenRouter (100+ modelos), Ollama local, Google Workspace, GitHub e webhooks.</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6"><div class="flex items-center justify-between"><span class="text-3xl">🏗</span><span class="text-xs text-neutral-500">Avançado · ~4h</span></div><h3 class="font-bold mt-3">5 · Arquiteturas Avançadas</h3><p class="text-sm text-neutral-400 mt-1">Os 6 padrões Claw, multi-agentes TinyClaw, Agent Zero e loop de aprendizado contínuo.</p></div>
+        <div class="bg-dark-800 border border-dark-600 rounded-xl p-6"><div class="flex items-center justify-between"><span class="text-3xl">🚀</span><span class="text-xs text-neutral-500">Expert · ~2h</span></div><h3 class="font-bold mt-3">6 · Projeto Final: seu Jarvis</h3><p class="text-sm text-neutral-400 mt-1">Planejamento, geração do ingredients.md, deploy Docker, monitoramento e roadmap.</p></div>
+      </div>
+      <div class="text-center mt-8">
+        <a href="https://inematds.github.io/intelecto-curso/" target="_blank" class="text-sky-400 hover:text-sky-300 font-semibold">Ver a ementa completa, módulo a módulo →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 CORREDORES -->
+  <section class="py-16 sm:py-20 bg-dark-800 border-b border-dark-600">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">Os 8 corredores de features</h2>
+        <p class="mt-3 text-neutral-400 max-w-2xl mx-auto">O INTELECTO é uma mercearia. Você escolhe o que entra no seu assistente.</p>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🧬</div><div class="font-semibold text-sm mt-1">Identidade</div><div class="text-xs text-neutral-500">SOUL.md, perfis</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🛡</div><div class="font-semibold text-sm mt-1">Segurança</div><div class="text-xs text-neutral-500">WASM, gates</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">💬</div><div class="font-semibold text-sm mt-1">Canais</div><div class="text-xs text-neutral-500">WhatsApp, voz</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🧠</div><div class="font-semibold text-sm mt-1">Memória</div><div class="text-xs text-neutral-500">SQLite, BM25</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">⚙</div><div class="font-semibold text-sm mt-1">Automação</div><div class="text-xs text-neutral-500">Cron, sub-agentes</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🔗</div><div class="font-semibold text-sm mt-1">Integrações</div><div class="text-xs text-neutral-500">OpenRouter, MCP</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🧰</div><div class="font-semibold text-sm mt-1">Skills</div><div class="text-xs text-neutral-500">Google, GitHub</div></div>
+        <div class="bg-dark-900 border border-dark-600 rounded-lg p-4 text-center"><div class="text-2xl">🏗</div><div class="font-semibold text-sm mt-1">Arquiteturas</div><div class="text-xs text-neutral-500">6 padrões Claw</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRA QUEM E -->
+  <section class="py-16 sm:py-20 border-b border-dark-600">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8">
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mb-5">Pra quem é</h2>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex gap-3"><span class="text-yellow-400">✓</span> Quem quer um assistente de IA <strong>seu</strong>, não mais uma assinatura.</li>
+          <li class="flex gap-3"><span class="text-yellow-400">✓</span> Devs e curiosos que querem entender agentes de verdade.</li>
+          <li class="flex gap-3"><span class="text-yellow-400">✓</span> Quem já usa IA e quer ir do "uso" pro "construo".</li>
+          <li class="flex gap-3"><span class="text-yellow-400">✓</span> Quem se importa com privacidade e segurança (rodar local).</li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="text-2xl sm:text-3xl font-extrabold mb-5">Pré-requisitos</h2>
+        <ul class="space-y-3 text-neutral-300">
+          <li class="flex gap-3"><span class="text-sky-400">•</span> Um computador (Windows, Mac ou Linux) e internet.</li>
+          <li class="flex gap-3"><span class="text-sky-400">•</span> Vontade de mexer no terminal — a gente guia do zero.</li>
+          <li class="flex gap-3"><span class="text-sky-400">•</span> Não precisa saber programar. Sério.</li>
+          <li class="flex gap-3"><span class="text-sky-400">•</span> Conta no Telegram para testar seu assistente.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRECOS -->
+  <section id="precos" class="py-16 sm:py-24 bg-dark-800 border-b border-dark-600">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl sm:text-4xl font-extrabold">Escolha como participar</h2>
+        <p class="mt-3 text-neutral-400">2 dias ao vivo, do zero ao seu Jarvis rodando. Vagas limitadas.</p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 items-stretch">
+        <!-- ONLINE -->
+        <div class="bg-dark-900 border border-dark-600 rounded-2xl p-8 flex flex-col">
+          <div class="text-sm font-semibold text-sky-400 uppercase tracking-wide">Online</div>
+          <div class="mt-3 flex items-end gap-1"><span class="text-5xl font-extrabold">R$487</span></div>
+          <p class="text-sm text-neutral-400 mt-2">Ao vivo, de onde você estiver.</p>
+          <ul class="mt-6 space-y-3 text-sm text-neutral-300 flex-1">
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> 2 dias de workshop ao vivo</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Acesso às 6 trilhas e ao material</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Construção guiada do seu assistente</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Comunidade INEMA.VIP</li>
+          </ul>
+          <a href="https://inema.vip?plano=online" target="_blank" class="mt-8 block text-center border border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-dark-900 font-bold px-6 py-4 rounded-xl transition-colors">Quero a vaga online</a>
+        </div>
+        <!-- PRESENCIAL -->
+        <div class="bg-dark-900 border-2 border-yellow-400 rounded-2xl p-8 flex flex-col price-glow relative">
+          <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-yellow-400 text-dark-900 text-xs font-bold px-3 py-1 rounded-full">EXPERIÊNCIA COMPLETA</span>
+          <div class="text-sm font-semibold text-yellow-400 uppercase tracking-wide">Presencial</div>
+          <div class="mt-3 flex items-end gap-1"><span class="text-5xl font-extrabold">R$1987</span></div>
+          <p class="text-sm text-neutral-400 mt-2">Próxima turma · vagas limitadas</p>
+          <ul class="mt-6 space-y-3 text-sm text-neutral-300 flex-1">
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Tudo do online, presencialmente</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Acompanhamento mão na massa, ao seu lado</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Networking com a turma</li>
+            <li class="flex gap-2"><span class="text-yellow-400">✓</span> Sai com o assistente rodando no fim</li>
+          </ul>
+          <a href="https://inema.vip?plano=presencial" target="_blank" class="mt-8 block text-center bg-yellow-400 hover:bg-yellow-300 text-dark-900 font-bold px-6 py-4 rounded-xl transition-colors">Quero a vaga presencial</a>
+        </div>
+      </div>
+      <p class="text-center text-xs text-neutral-500 mt-6">Inscrição e pagamento processados via INEMA.VIP.</p>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="py-16 sm:py-20 border-b border-dark-600">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-center mb-10">Perguntas frequentes</h2>
+      <div class="space-y-3">
+        <details class="bg-dark-800 border border-dark-600 rounded-xl p-5 group"><summary class="font-semibold cursor-pointer flex justify-between items-center">Preciso saber programar? <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span></summary><p class="text-sm text-neutral-400 mt-3">Não. A gente começa do zero — incluindo o setup do ambiente. O Claude Code constrói junto com você; seu papel é decidir o que o assistente faz.</p></details>
+        <details class="bg-dark-800 border border-dark-600 rounded-xl p-5 group"><summary class="font-semibold cursor-pointer flex justify-between items-center">Qual a diferença entre online e presencial? <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span></summary><p class="text-sm text-neutral-400 mt-3">O conteúdo é o mesmo. No presencial você tem acompanhamento mão na massa ao seu lado e networking com a turma. No online você participa ao vivo de onde estiver.</p></details>
+        <details class="bg-dark-800 border border-dark-600 rounded-xl p-5 group"><summary class="font-semibold cursor-pointer flex justify-between items-center">Preciso pagar pelos modelos de IA? <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span></summary><p class="text-sm text-neutral-400 mt-3">Você aprende a usar tanto modelos via OpenRouter (pago por uso, centavos) quanto modelos locais com Ollama (de graça, rodando na sua máquina).</p></details>
+        <details class="bg-dark-800 border border-dark-600 rounded-xl p-5 group"><summary class="font-semibold cursor-pointer flex justify-between items-center">Saio do workshop com algo pronto? <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span></summary><p class="text-sm text-neutral-400 mt-3">Sim. O objetivo é terminar com um assistente seu funcionando no Telegram, com as features que você escolheu.</p></details>
+        <details class="bg-dark-800 border border-dark-600 rounded-xl p-5 group"><summary class="font-semibold cursor-pointer flex justify-between items-center">Onde vejo o conteúdo completo? <span class="text-yellow-400 group-open:rotate-45 transition-transform">+</span></summary><p class="text-sm text-neutral-400 mt-3">A ementa detalhada, trilha por trilha, está em <a href="https://inematds.github.io/intelecto-curso/" target="_blank" class="text-sky-400 hover:text-sky-300">inematds.github.io/intelecto-curso</a>.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="py-20 bg-gradient-to-br from-dark-800 via-dark-900 to-dark-800">
+    <div class="max-w-3xl mx-auto px-4 text-center">
+      <h2 class="text-3xl sm:text-5xl font-extrabold">Em 2 dias, seu Jarvis está <span class="grad-text">no ar</span>.</h2>
+      <p class="mt-5 text-lg text-neutral-300">Pare de assinar inteligência dos outros. Construa a sua.</p>
+      <a href="#precos" class="mt-9 inline-block bg-yellow-400 hover:bg-yellow-300 text-dark-900 font-bold text-lg px-10 py-4 rounded-xl transition-colors shadow-lg shadow-yellow-400/20">Garantir minha vaga →</a>
+      <p class="mt-4 text-sm text-neutral-400">Online R$487 · Presencial R$1987 · vagas limitadas</p>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-dark-600 bg-dark-900 py-10">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-neutral-400">
+      <div class="flex items-center gap-2"><span class="text-2xl">🤖</span><span class="font-bold text-neutral-200">INTELECTO</span></div>
+      <div class="flex items-center gap-4">
+        <a href="https://inematds.github.io/intelecto-curso/" target="_blank" class="hover:text-yellow-400">Ementa</a>
+        <a href="#precos" class="hover:text-yellow-400">Preços</a>
+        <a href="https://inema.club" target="_blank" class="text-sky-400 hover:text-sky-300 font-medium">INEMA.CLUB</a>
+      </div>
+      <div>© <span id="year"></span> INEMA</div>
+    </div>
+  </footer>
+
+  <script>
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeToggleDarkIcon = document.getElementById('theme-toggle-dark-icon');
+    const themeToggleLightIcon = document.getElementById('theme-toggle-light-icon');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'light') {
+      themeToggleDarkIcon.classList.remove('hidden');
+      html.classList.remove('dark');
+    } else {
+      themeToggleLightIcon.classList.remove('hidden');
+    }
+    themeToggle.addEventListener('click', () => {
+      themeToggleDarkIcon.classList.toggle('hidden');
+      themeToggleLightIcon.classList.toggle('hidden');
+      html.classList.toggle('dark');
+      localStorage.setItem('theme', html.classList.contains('dark') ? 'dark' : 'light');
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
