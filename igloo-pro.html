@@ -349,17 +349,17 @@ try {
   const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
   let Lenis = null; try { Lenis = (await import('lenis')).default; } catch(_){}
 
-  const COLD_BG = 0xb9c4d0;
+  const COLD_BG = 0x2b323e;   // dark slate dusk (#383e4e family) — text reads, igloo glows
   const canvas = document.getElementById('scene');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
   renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   renderer.setSize(innerWidth, innerHeight);
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 0.92;
 
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(COLD_BG);
-  scene.fog = new THREE.Fog(COLD_BG, 9, 34);
+  scene.fog = new THREE.Fog(COLD_BG, 8, 30);
 
   // environment for glass reflections
   const pmrem = new THREE.PMREMGenerator(renderer);
@@ -380,7 +380,7 @@ try {
     pos.setY(i, h*ridge - 1.6 + (Math.random()*0.05));
   }
   tGeo.computeVertexNormals();
-  const terrain = new THREE.Mesh(tGeo, new THREE.MeshStandardMaterial({ color:0xeef3f8, roughness:0.95, metalness:0 }));
+  const terrain = new THREE.Mesh(tGeo, new THREE.MeshStandardMaterial({ color:0x8b97a6, roughness:0.96, metalness:0 }));
   scene.add(terrain);
 
   // ---------- glass-block igloo ----------
@@ -391,7 +391,7 @@ try {
     clearcoat:0.7, clearcoatRoughness:0.25, transparent:true, envMapIntensity:1.3,
     emissive:0x123347, emissiveIntensity:0.35, attenuationColor:0x9fd6ef, attenuationDistance:3.0
   });
-  const edgeMat = new THREE.LineBasicMaterial({ color:0xbfeaff, transparent:true, opacity:0.6 });
+  const edgeMat = new THREE.LineBasicMaterial({ color:0xbfeaff, transparent:true, opacity:0.9 });
   const rings = [ {phi:8,n:1},{phi:24,n:8},{phi:40,n:12},{phi:56,n:16},{phi:72,n:18},{phi:86,n:20} ];
   const deg = d=>d*Math.PI/180;
   rings.forEach((ring,ri)=>{
@@ -415,13 +415,13 @@ try {
   scene.add(igloo);
 
   // inner cold glow
-  const core = new THREE.PointLight(0x9fe0ff, 9, 9, 2); core.position.set(0,0.2,0); igloo.add(core);
+  const core = new THREE.PointLight(0x9fe0ff, 12, 11, 2); core.position.set(0,0.2,0); igloo.add(core);
   const coreOrb = new THREE.Mesh(new THREE.SphereGeometry(0.5,24,24), new THREE.MeshBasicMaterial({color:0xbfeaff})); coreOrb.position.set(0,0.1,0); igloo.add(coreOrb);
 
   // ---------- lights ----------
-  scene.add(new THREE.HemisphereLight(0xdfeaf5, 0x42505f, 1.15));
-  const sun = new THREE.DirectionalLight(0xffffff, 1.6); sun.position.set(8,12,6); scene.add(sun);
-  const rim = new THREE.DirectionalLight(0x8fc6ff, 0.8); rim.position.set(-6,4,-8); scene.add(rim);
+  scene.add(new THREE.HemisphereLight(0xaec3da, 0x2a323d, 0.55));
+  const sun = new THREE.DirectionalLight(0xdfe9f5, 0.85); sun.position.set(8,12,6); scene.add(sun);
+  const rim = new THREE.DirectionalLight(0x7fc3ff, 1.15); rim.position.set(-6,4,-8); scene.add(rim);
 
   // ---------- falling snow ----------
   const SN=900, sp=new Float32Array(SN*3);
@@ -433,7 +433,7 @@ try {
   // ---------- postprocessing ----------
   const composer = new EffectComposer(renderer);
   composer.addPass(new RenderPass(scene,camera));
-  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), 0.7, 0.6, 0.82);
+  const bloom = new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight), 0.95, 0.7, 0.55);
   composer.addPass(bloom);
   composer.addPass(new OutputPass());
 
@@ -475,7 +475,7 @@ try {
     const p=progress();
     camFromProgress(p);
     igloo.rotation.y = p*0.6 + t*0.05;
-    coreOrb.material.opacity = 0.8; core.intensity = 8 + Math.sin(t*3)*2.2;
+    coreOrb.material.opacity = 0.8; core.intensity = 11 + Math.sin(t*3)*2.5;
     // snow fall
     const a=snow.geometry.attributes.position;
     for(let i=0;i<SN;i++){ let y=a.getY(i)-0.03-(i%5)*0.004; if(y<-2)y=30; a.setY(i,y); a.setX(i,a.getX(i)+0.004); }
