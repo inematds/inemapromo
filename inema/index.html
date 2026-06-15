@@ -15,6 +15,7 @@
     --ink: oklch(0.22 0.02 60);
     --coral: oklch(0.63 0.2 32);
     --indigo: oklch(0.45 0.13 285);
+    --hearth: oklch(0.66 0.16 56);
     --muted: oklch(0.46 0.02 65);
     --faint: oklch(0.58 0.018 65);
     --line: oklch(0.22 0.02 60 / 0.16);
@@ -26,22 +27,22 @@
   body{background:var(--paper);color:var(--ink);font-family:'Schibsted Grotesk',sans-serif;line-height:1.6;min-height:100vh}
   a{color:inherit;text-decoration:none}::selection{background:var(--coral);color:var(--paper)}
   .display{font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.025em;line-height:1}
-  .wrap{max-width:900px;margin:0 auto;padding:clamp(46px,9vh,104px) clamp(22px,6vw,40px)}
+  .wrap{max-width:1040px;margin:0 auto;padding:clamp(46px,9vh,104px) clamp(22px,6vw,40px)}
   header .kick{font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
   header h1{font-size:clamp(2.2rem,6vw,3.8rem);margin-top:20px;max-width:16ch}
   header p{color:var(--muted);margin-top:18px;max-width:60ch;font-size:1.06rem}
 
   .pair{margin-top:50px;display:grid;gap:16px}
-  @media(min-width:740px){.pair{grid-template-columns:1fr 1fr}}
-  .opt{display:flex;flex-direction:column;border:1.5px solid var(--line-2);border-radius:10px;padding:30px;transition:transform .4s var(--ease),border-color .4s}
+  @media(min-width:740px){.pair{grid-template-columns:repeat(3,1fr)}}
+  .opt{display:flex;flex-direction:column;border:1.5px solid var(--line-2);border-radius:10px;padding:28px;transition:transform .4s var(--ease),border-color .4s}
   .opt:hover{transform:translateY(-4px)}
-  .opt.a:hover{border-color:var(--coral)} .opt.b:hover{border-color:var(--indigo)}
+  .opt.a:hover{border-color:var(--coral)} .opt.b:hover{border-color:var(--indigo)} .opt.c:hover{border-color:var(--hearth)}
   .opt .tag{font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
-  .opt.a .tag{color:var(--coral)} .opt.b .tag{color:var(--indigo)}
-  .opt h2{font-family:'Archivo';font-weight:900;font-size:1.6rem;margin-top:12px}
-  .opt p{color:var(--muted);font-size:.96rem;margin-top:8px;flex:1}
+  .opt.a .tag{color:var(--coral)} .opt.b .tag{color:var(--indigo)} .opt.c .tag{color:var(--hearth)}
+  .opt h2{font-family:'Archivo';font-weight:900;font-size:1.5rem;margin-top:12px}
+  .opt p{color:var(--muted);font-size:.94rem;margin-top:8px;flex:1}
   .opt .open{margin-top:22px;font-weight:600;font-size:.92rem}
-  .opt.a .open{color:var(--coral)} .opt.b .open{color:var(--indigo)}
+  .opt.a .open{color:var(--coral)} .opt.b .open{color:var(--indigo)} .opt.c .open{color:var(--hearth)}
 
   .more{margin-top:46px;border-top:1px solid var(--line);padding-top:24px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center}
   .more .lbl{font-weight:600;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);width:100%}
@@ -54,8 +55,8 @@
 <div class="wrap">
   <header>
     <p class="kick">INEMA.CLUB · divulgação</p>
-    <h1 class="display">Duas landpages para divulgar a plataforma.</h1>
-    <p>Duas versões para promover o INEMA.CLUB, a maior plataforma gratuita de educação em IA do Brasil, mantida pela comunidade. Mesmo conteúdo, duas vozes visuais. Abra as duas e escolha.</p>
+    <h1 class="display">Três landpages para divulgar a plataforma.</h1>
+    <p>Três versões para promover o INEMA.CLUB, a maior plataforma gratuita de educação em IA do Brasil, mantida pela comunidade. Mesmo conteúdo, três vozes visuais. Abra as três e escolha.</p>
   </header>
 
   <div class="pair">
@@ -70,6 +71,12 @@
       <h2>Escura e conectada</h2>
       <p>Índigo profundo com uma constelação de nós que se ligam ao seu cursor. A plataforma como uma rede viva de conhecimento.</p>
       <div class="open">Abrir versão B →</div>
+    </a>
+    <a class="opt c" href="casa-segura.html">
+      <div class="tag">Versão C · Casa segura</div>
+      <h2>O iglu da comunidade</h2>
+      <p>Um iglu de gelo 3D, quente por dentro, no inverno da IA. A plataforma como o abrigo onde a comunidade se prepara junta.</p>
+      <div class="open">Abrir versão C →</div>
     </a>
   </div>
 
