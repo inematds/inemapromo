@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INEMA.CLUB — a maior escola de IA do Brasil é de graça</title>
+<meta name="description" content="Mais de 120 cursos e trilhas de Inteligência Artificial, de engenharia de prompts a robótica, mantidos pela comunidade INEMA. Gratuito. Crie seu time, lidere sua jornada.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;800;900&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: oklch(0.972 0.012 78);
+    --paper-2: oklch(0.945 0.016 78);
+    --ink: oklch(0.22 0.02 60);
+    --coral: oklch(0.63 0.2 32);
+    --coral-deep: oklch(0.55 0.2 32);
+    --blue: oklch(0.5 0.13 250);
+    --muted: oklch(0.46 0.02 65);
+    --faint: oklch(0.58 0.018 65);
+    --line: oklch(0.22 0.02 60 / 0.14);
+    --line-2: oklch(0.22 0.02 60 / 0.28);
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:'Schibsted Grotesk',sans-serif;line-height:1.6;overflow-x:hidden}
+  ::selection{background:var(--coral);color:var(--paper)}
+  a{color:inherit;text-decoration:none}
+  .display{font-family:'Archivo',sans-serif;font-weight:900;line-height:.95;letter-spacing:-.025em}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 clamp(22px,5vw,56px)}
+
+  nav{position:sticky;top:0;z-index:30;background:oklch(0.972 0.012 78 / 0.86);backdrop-filter:saturate(1.4);border-bottom:1px solid var(--line);}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+  nav .brand{font-family:'Archivo';font-weight:900;letter-spacing:-.02em;font-size:1.1rem}
+  nav .brand b{color:var(--coral)}
+  nav .links{display:flex;align-items:center;gap:clamp(14px,2.5vw,30px);font-size:.92rem;font-weight:500}
+  nav .links a.t{color:var(--muted)} nav .links a.t:hover{color:var(--ink)}
+  @media(max-width:680px){nav .links a.t{display:none}}
+
+  .btn{font-family:'Schibsted Grotesk';font-weight:600;font-size:.95rem;padding:12px 22px;border-radius:999px;transition:transform .3s var(--ease),background .3s,border-color .3s;display:inline-block}
+  .btn.fill{background:var(--coral);color:var(--paper)}
+  .btn.fill:hover{background:var(--coral-deep);transform:translateY(-2px)}
+  .btn.line{border:1.5px solid var(--line-2);color:var(--ink)}
+  .btn.line:hover{border-color:var(--ink);transform:translateY(-2px)}
+  .btn.lg{padding:16px 30px;font-size:1.05rem}
+
+  /* hero */
+  .hero{padding:clamp(56px,10vh,120px) 0 0}
+  .hero .kick{font-weight:600;font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;color:var(--coral)}
+  .hero h1{font-size:clamp(2.9rem,9vw,7.2rem);margin-top:22px;max-width:15ch}
+  .hero h1 .u{color:var(--coral)}
+  .hero .sub{margin-top:30px;max-width:54ch;font-size:clamp(1.1rem,1.7vw,1.4rem);color:var(--muted)}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:38px;align-items:center}
+  .hero .free{font-weight:600;color:var(--ink)}
+  .hero .free b{color:var(--coral)}
+
+  /* marquee of real courses */
+  .marquee{margin-top:70px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+  .marquee .track{display:inline-flex;gap:34px;white-space:nowrap;animation:scroll 46s linear infinite;will-change:transform}
+  .marquee:hover .track{animation-play-state:paused}
+  .marquee b{font-family:'Archivo';font-weight:800;font-size:1.1rem;color:var(--ink);display:inline-flex;align-items:center;gap:34px}
+  .marquee b::after{content:"✦";color:var(--coral);font-size:.7rem}
+  @keyframes scroll{to{transform:translateX(-50%)}}
+  @media(prefers-reduced-motion:reduce){.marquee .track{animation:none}}
+
+  section{padding:clamp(64px,11vh,128px) 0}
+  .eyebrow{font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+  .h2{font-family:'Archivo';font-weight:900;font-size:clamp(2rem,5vw,3.6rem);letter-spacing:-.02em;line-height:1.02;margin-top:14px}
+  .lead{font-family:'Archivo';font-weight:800;font-size:clamp(1.8rem,4.6vw,3.3rem);line-height:1.08;letter-spacing:-.02em;max-width:20ch}
+  .lead .u{color:var(--coral)}
+  .body{margin-top:24px;max-width:60ch;color:var(--muted);font-size:1.1rem}
+
+  /* numbers */
+  .nums{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:18px}
+  @media(min-width:760px){.nums{grid-template-columns:repeat(4,1fr)}}
+  .nums .n{background:var(--paper);padding:34px 26px}
+  .nums .n .big{font-family:'Archivo';font-weight:900;font-size:clamp(2.4rem,5vw,3.4rem);letter-spacing:-.02em;color:var(--coral)}
+  .nums .n .lb{color:var(--muted);font-size:.95rem;margin-top:6px}
+
+  /* trilha path */
+  .path{margin-top:44px;display:grid;gap:14px}
+  @media(min-width:760px){.path{grid-template-columns:repeat(4,1fr)}}
+  .step{border:1px solid var(--line-2);border-radius:14px;padding:26px;display:block;transition:transform .35s var(--ease),background .35s}
+  .step:hover{transform:translateY(-4px);background:var(--paper-2)}
+  .step .s-n{font-family:'Archivo';font-weight:900;font-size:1.4rem;color:var(--coral)}
+  .step h4{font-family:'Archivo';font-weight:800;font-size:1.2rem;margin-top:14px}
+  .step .ab{font-weight:600;color:var(--blue);font-size:.82rem;letter-spacing:.04em}
+  .step p{color:var(--muted);font-size:.92rem;margin-top:6px}
+  .step .go{margin-top:14px;font-weight:600;color:var(--coral);font-size:.88rem}
+
+  /* domains as flowing tags, not cards */
+  .domains{margin-top:34px;display:flex;flex-wrap:wrap;gap:10px}
+  .domains span{border:1px solid var(--line-2);border-radius:999px;padding:9px 17px;font-weight:500;font-size:.96rem;transition:background .3s,color .3s,border-color .3s}
+  .domains span:hover{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+  /* why free — two columns */
+  .why{display:grid;gap:42px;align-items:start}
+  @media(min-width:820px){.why{grid-template-columns:1.1fr .9fr}}
+  .why ul{list-style:none;margin-top:8px}
+  .why li{display:flex;gap:14px;padding:16px 0;border-top:1px solid var(--line);font-size:1.02rem}
+  .why li:first-child{border-top:none}
+  .why li b{font-family:'Archivo';font-weight:800;color:var(--coral);font-size:1.05rem}
+
+  /* final */
+  .final{background:var(--ink);color:var(--paper);border-radius:24px;padding:clamp(40px,7vw,80px);text-align:center;margin:0 auto}
+  .final h2{font-family:'Archivo';font-weight:900;font-size:clamp(2.2rem,7vw,5rem);line-height:1;letter-spacing:-.02em}
+  .final h2 .u{color:var(--coral)}
+  .final p{margin:20px auto 0;max-width:48ch;color:oklch(0.85 0.02 78);font-size:1.1rem}
+  .final .btn.fill{background:var(--coral)} .final .btn.line{border-color:oklch(0.85 0.02 78 / .4);color:var(--paper)}
+  footer{padding:46px 0;color:var(--faint);font-size:.92rem;display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center}
+  footer a:hover{color:var(--ink)}
+  footer .brand{font-family:'Archivo';font-weight:900;color:var(--ink)}
+
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv-1{transition-delay:.07s}.rv-2{transition-delay:.14s}.rv-3{transition-delay:.21s}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <a href="#top" class="brand">INEMA<b>.CLUB</b></a>
+    <div class="links">
+      <a href="#trilha" class="t">Por onde começar</a>
+      <a href="#temas" class="t">O que tem lá</a>
+      <a href="https://www.inema.club/" target="_blank" class="btn fill" style="padding:9px 18px">Acessar grátis</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <p class="kick rv in">Comunidade INEMA · 100% gratuito</p>
+    <h1 class="display rv in">A maior escola de IA do Brasil custa <span class="u">zero reais</span>.</h1>
+    <p class="sub rv in">Mais de 120 cursos e trilhas, de engenharia de prompts a robótica, mantidos por uma comunidade que aprende em conjunto. Você entra de graça e sai com um time.</p>
+    <div class="cta-row rv in">
+      <a href="https://www.inema.club/" target="_blank" class="btn fill lg">Acessar o INEMA.CLUB</a>
+      <a href="#trilha" class="btn line lg">Por onde começar</a>
+      <span class="free">Sem cartão, sem pegadinha. <b>Grátis de verdade.</b></span>
+    </div>
+  </div>
+  <div class="marquee" aria-hidden="true">
+    <div class="track">
+      <b>Fundamentos de Engenharia de Prompts</b><b>AI Tools in Action</b><b>Claude Code na Prática</b><b>VLA · Robótica</b><b>Consultor de IA</b><b>Segundo Cérebro com LLM</b><b>Agentic Básico</b><b>Visão Computacional</b><b>5 Níveis do Claude Code</b><b>Arquitetura de Intenção (Jarvis)</b>
+      <b>Fundamentos de Engenharia de Prompts</b><b>AI Tools in Action</b><b>Claude Code na Prática</b><b>VLA · Robótica</b><b>Consultor de IA</b><b>Segundo Cérebro com LLM</b><b>Agentic Básico</b><b>Visão Computacional</b><b>5 Níveis do Claude Code</b><b>Arquitetura de Intenção (Jarvis)</b>
+    </div>
+  </div>
+</header>
+
+<section>
+  <div class="wrap">
+    <p class="lead display rv">Não é só uma plataforma de conhecimento. É uma <span class="u">comunidade viva</span>.</p>
+    <p class="body rv rv-1">O INEMA prepara você para um mundo onde a Inteligência Artificial e a robótica estarão em todo lugar. Nesse cenário, vale quem é criativo, adaptável e sabe construir junto. Por isso o foco não é só estudar: é formar e liderar o seu time. Você está pronto para criar o amanhã conosco?</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <p class="eyebrow rv">Em números</p>
+    <h2 class="h2 rv">Tudo aberto, tudo mantido pela comunidade</h2>
+    <div class="nums rv rv-1">
+      <div class="n"><div class="big">120+</div><div class="lb">cursos e plataformas</div></div>
+      <div class="n"><div class="big">dezenas</div><div class="lb">de trilhas guiadas</div></div>
+      <div class="n"><div class="big">centenas</div><div class="lb">de tópicos e horas</div></div>
+      <div class="n"><div class="big">R$0</div><div class="lb">para começar hoje</div></div>
+    </div>
+  </div>
+</section>
+
+<section id="trilha">
+  <div class="wrap">
+    <p class="eyebrow rv">Por onde começar</p>
+    <h2 class="h2 rv">A trilha de iniciantes, na ordem certa</h2>
+    <p class="body rv rv-1">Quatro cursos essenciais para sair do zero. Depois deles, o catálogo inteiro abre para você seguir pelo que mais te interessa.</p>
+    <div class="path rv rv-2">
+      <a class="step" href="https://inematds.github.io/FEP/" target="_blank"><div class="s-n">01</div><div class="ab">FEP</div><h4>Engenharia de Prompts</h4><p>Os fundamentos para conversar com qualquer modelo e tirar o que você quer dele.</p><div class="go">Começar →</div></a>
+      <a class="step" href="https://inematds.github.io/ATIA/" target="_blank"><div class="s-n">02</div><div class="ab">ATIA</div><h4>AI Tools in Action</h4><p>As ferramentas de IA na prática, aplicadas a tarefas reais do dia a dia.</p><div class="go">Começar →</div></a>
+      <a class="step" href="https://inematds.github.io/FDB/" target="_blank"><div class="s-n">03</div><div class="ab">FDB</div><h4>Banco de Dados</h4><p>A base que sustenta memória, busca e qualquer aplicação séria de IA.</p><div class="go">Começar →</div></a>
+      <a class="step" href="https://inematds.github.io/VISION/" target="_blank"><div class="s-n">04</div><div class="ab">Vision</div><h4>Visão com IA</h4><p>Processamento de imagens com IA, da teoria ao que você consegue construir.</p><div class="go">Começar →</div></a>
+    </div>
+  </div>
+</section>
+
+<section id="temas">
+  <div class="wrap">
+    <p class="eyebrow rv">O que tem lá</p>
+    <h2 class="h2 rv">Da primeira prompt à robótica humanoide</h2>
+    <p class="body rv rv-1">O catálogo cobre a IA de ponta a ponta. Escolha um tema e mergulhe.</p>
+    <div class="domains rv rv-2">
+      <span>Engenharia de Prompts</span><span>Agentes de IA</span><span>Claude Code</span><span>Robótica e VLA</span><span>Visão Computacional</span><span>Segurança de IA</span><span>Consultoria em IA</span><span>Segundo Cérebro</span><span>Bancos de Dados</span><span>Automação</span><span>Multi-Agentes</span><span>RAG e Memória</span><span>Pensamento Estruturado</span><span>Design com IA</span><span>Produtividade</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap why">
+    <div class="rv">
+      <p class="eyebrow">Por que é de graça</p>
+      <h2 class="h2">O conhecimento é o ponto de partida, não o produto</h2>
+      <p class="body">O INEMA é mantido pela própria comunidade: gente que cria os cursos, abre o código no GitHub e troca todo dia nos canais do Telegram. O acesso é livre porque o objetivo não é vender aula, é formar pessoas que constroem o futuro em conjunto.</p>
+    </div>
+    <div class="rv rv-1">
+      <ul>
+        <li><b>01</b><span>Cursos criados e revisados por quem faz, abertos para todos.</span></li>
+        <li><b>02</b><span>Comunidade ativa no Telegram para tirar dúvidas e construir junto.</span></li>
+        <li><b>03</b><span>Projetos e repositórios abertos no GitHub do INEMA.</span></li>
+        <li><b>04</b><span>Uma trilha clara para iniciantes, e profundidade para quem quer ir longe.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="final rv">
+      <h2 class="display">Crie seu time.<br>Lidere sua <span class="u">jornada</span>.</h2>
+      <p>É aqui que o futuro começa, e ele precisa de você. Entre agora, de graça, e comece pela trilha de iniciantes.</p>
+      <div class="cta-row" style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:34px">
+        <a href="https://www.inema.club/" target="_blank" class="btn fill lg">Entrar no INEMA.CLUB</a>
+        <a href="https://inematds.github.io/FEP/" target="_blank" class="btn line lg">Começar pelo FEP</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap" style="display:flex;flex-wrap:wrap;gap:14px;justify-content:space-between;align-items:center;width:100%">
+    <span class="brand">INEMA.CLUB</span>
+    <span style="display:flex;gap:22px">
+      <a href="https://www.inema.club/" target="_blank">Plataforma</a>
+      <a href="#trilha">Começar</a>
+      <a href="https://inematds.github.io/intelecto-curso/" target="_blank">Cursos</a>
+    </span>
+    <span style="color:var(--faint)">© <span id="yr"></span> Comunidade INEMA</span>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent=new Date().getFullYear();
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+  document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+</script>
+</body>
+</html>

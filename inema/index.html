@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INEMA.CLUB — landpages de divulgação (2 versões)</title>
+<meta name="description" content="Duas versões de landing page para divulgar o INEMA.CLUB, a maior plataforma gratuita de educação em IA do Brasil, mantida pela comunidade.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;900&family=Schibsted+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper: oklch(0.972 0.012 78);
+    --panel: oklch(0.945 0.016 78);
+    --ink: oklch(0.22 0.02 60);
+    --coral: oklch(0.63 0.2 32);
+    --indigo: oklch(0.45 0.13 285);
+    --muted: oklch(0.46 0.02 65);
+    --faint: oklch(0.58 0.018 65);
+    --line: oklch(0.22 0.02 60 / 0.16);
+    --line-2: oklch(0.22 0.02 60 / 0.3);
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--paper);color:var(--ink);font-family:'Schibsted Grotesk',sans-serif;line-height:1.6;min-height:100vh}
+  a{color:inherit;text-decoration:none}::selection{background:var(--coral);color:var(--paper)}
+  .display{font-family:'Archivo',sans-serif;font-weight:900;letter-spacing:-.025em;line-height:1}
+  .wrap{max-width:900px;margin:0 auto;padding:clamp(46px,9vh,104px) clamp(22px,6vw,40px)}
+  header .kick{font-weight:600;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;color:var(--coral)}
+  header h1{font-size:clamp(2.2rem,6vw,3.8rem);margin-top:20px;max-width:16ch}
+  header p{color:var(--muted);margin-top:18px;max-width:60ch;font-size:1.06rem}
+
+  .pair{margin-top:50px;display:grid;gap:16px}
+  @media(min-width:740px){.pair{grid-template-columns:1fr 1fr}}
+  .opt{display:flex;flex-direction:column;border:1.5px solid var(--line-2);border-radius:10px;padding:30px;transition:transform .4s var(--ease),border-color .4s}
+  .opt:hover{transform:translateY(-4px)}
+  .opt.a:hover{border-color:var(--coral)} .opt.b:hover{border-color:var(--indigo)}
+  .opt .tag{font-weight:600;font-size:.72rem;letter-spacing:.14em;text-transform:uppercase}
+  .opt.a .tag{color:var(--coral)} .opt.b .tag{color:var(--indigo)}
+  .opt h2{font-family:'Archivo';font-weight:900;font-size:1.6rem;margin-top:12px}
+  .opt p{color:var(--muted);font-size:.96rem;margin-top:8px;flex:1}
+  .opt .open{margin-top:22px;font-weight:600;font-size:.92rem}
+  .opt.a .open{color:var(--coral)} .opt.b .open{color:var(--indigo)}
+
+  .more{margin-top:46px;border-top:1px solid var(--line);padding-top:24px;display:flex;flex-wrap:wrap;gap:10px 26px;align-items:center}
+  .more .lbl{font-weight:600;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);width:100%}
+  .more a{font-weight:500;font-size:.95rem;color:var(--muted)} .more a:hover{color:var(--ink)}
+  footer{color:var(--faint);font-size:.86rem;margin-top:46px;border-top:1px solid var(--line);padding-top:22px;display:flex;flex-wrap:wrap;gap:12px;justify-content:space-between}
+  footer .brand{font-family:'Archivo';font-weight:900;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="kick">INEMA.CLUB · divulgação</p>
+    <h1 class="display">Duas landpages para divulgar a plataforma.</h1>
+    <p>Duas versões para promover o INEMA.CLUB, a maior plataforma gratuita de educação em IA do Brasil, mantida pela comunidade. Mesmo conteúdo, duas vozes visuais. Abra as duas e escolha.</p>
+  </header>
+
+  <div class="pair">
+    <a class="opt a" href="movimento.html">
+      <div class="tag">Versão A · Movimento</div>
+      <h2>Clara e editorial</h2>
+      <p>Papel quente, tipografia forte, acento coral e um letreiro com os cursos reais passando. Energia de movimento e comunidade.</p>
+      <div class="open">Abrir versão A →</div>
+    </a>
+    <a class="opt b" href="rede.html">
+      <div class="tag">Versão B · Rede viva</div>
+      <h2>Escura e conectada</h2>
+      <p>Índigo profundo com uma constelação de nós que se ligam ao seu cursor. A plataforma como uma rede viva de conhecimento.</p>
+      <div class="open">Abrir versão B →</div>
+    </a>
+  </div>
+
+  <div class="more">
+    <span class="lbl">Mais</span>
+    <a href="https://www.inema.club/" target="_blank">Plataforma oficial (inema.club)</a>
+    <a href="../">Outras landpages do repo</a>
+  </div>
+
+  <footer>
+    <span class="brand">INEMA.CLUB</span>
+    <span>© <span id="yr"></span> Comunidade INEMA</span>
+  </footer>
+</div>
+<script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+</body>
+</html>
