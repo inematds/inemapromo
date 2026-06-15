@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTELECTO — Neste inverno, você se aquece construindo seu Jarvis</title>
+<meta name="description" content="Workshop ao vivo de 2 dias. Enquanto lá fora congela, você acende a sua própria inteligência: um Jarvis multimodelo, com memória e segurança. Online R$487, presencial R$1987.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --base: oklch(0.14 0.012 55);
+    --sheet: oklch(0.175 0.014 50 / 0.93);
+    --ember: oklch(0.72 0.17 52);
+    --gold: oklch(0.86 0.11 78);
+    --text: oklch(0.96 0.012 75);
+    --muted: oklch(0.75 0.022 62);
+    --faint: oklch(0.62 0.02 60);
+    --line: oklch(0.5 0.02 55 / 0.32);
+    --line-2: oklch(0.6 0.03 55 / 0.5);
+    --ease: cubic-bezier(.2,.7,.2,1);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased}
+  body{background:var(--base);color:var(--text);font-family:'Hanken Grotesk',sans-serif;line-height:1.65;overflow-x:hidden}
+  ::selection{background:var(--ember);color:var(--base)}
+  a{color:inherit;text-decoration:none}
+  .display{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;line-height:.98;letter-spacing:-.015em}
+  .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.02em}
+
+  /* atmosphere (gradients/overlays, not glass) */
+  #scene{position:fixed;inset:0;z-index:0;display:block}
+  .scrim{position:fixed;inset:0;z-index:1;pointer-events:none;background:linear-gradient(180deg, oklch(0.1 0.01 50/.2) 0%, transparent 16%, transparent 80%, oklch(0.1 0.01 50/.6) 100%)}
+  .hearth{position:fixed;inset:0;z-index:1;pointer-events:none;background:radial-gradient(58% 42% at 50% 66%, oklch(0.6 0.16 50/.2), transparent 70%);mix-blend-mode:screen}
+  .grain{position:fixed;inset:0;z-index:2;pointer-events:none;opacity:.05;mix-blend-mode:overlay}
+  .vignette{position:fixed;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 240px 80px oklch(0.08 0.01 50/.55)}
+
+  /* HUD — the one deliberate mono "console" frame */
+  .hud{position:fixed;z-index:6;font-family:'JetBrains Mono',monospace;font-size:.64rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;pointer-events:none;text-shadow:0 1px 10px oklch(0 0 0/.7)}
+  .hud.tl{top:22px;left:26px}
+  .hud.tr{top:18px;right:26px;display:flex;gap:18px;align-items:center;pointer-events:auto}
+  .hud.tr a{color:var(--muted);transition:color .3s} .hud.tr a:hover{color:var(--text)}
+  .hud.tr .go{color:var(--base);background:var(--ember);padding:8px 14px;border-radius:2px;letter-spacing:.12em}
+  .hud.tr .go:hover{filter:brightness(1.08);color:var(--base)}
+  .hud.bl{bottom:20px;left:26px} .hud.br{bottom:20px;right:26px;text-align:right}
+  @media(max-width:760px){.hud.bl,.hud.br,.hud.tr a:not(.go){display:none}}
+
+  #loader{position:fixed;inset:0;z-index:100;background:var(--base);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;transition:opacity 1s var(--ease),visibility 1s}
+  #loader.done{opacity:0;visibility:hidden}
+  #loader .lk{font-size:clamp(2rem,7vw,3.6rem);letter-spacing:.06em}
+  #loader .bar{width:min(220px,52vw);height:2px;background:var(--line)}
+  #loader .bar i{display:block;height:100%;width:0;background:var(--ember)}
+  #loader .pct{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.3em;color:var(--faint)}
+
+  .content{position:relative;z-index:5}
+
+  /* hero — open over the 3D, no panel */
+  .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:0 clamp(26px,7vw,90px)}
+  .hero .kicker{font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);margin-bottom:26px;text-shadow:0 1px 14px oklch(0 0 0/.6)}
+  .hero h1{font-size:clamp(3rem,12vw,9rem);text-transform:none;text-shadow:0 8px 48px oklch(0.05 0.01 50/.55);max-width:14ch}
+  .hero h1 .light{font-weight:600;color:var(--muted)}
+  .hero h1 .accent{color:var(--ember)}
+  .hero .sub{margin-top:28px;max-width:46ch;color:var(--text);font-weight:300;font-size:clamp(1.05rem,1.5vw,1.3rem);text-shadow:0 2px 18px oklch(0.05 0.01 50/.6)}
+  .hero .cta-row{display:flex;gap:14px;flex-wrap:wrap;margin-top:40px}
+  .hero .meta{margin-top:26px;font-family:'JetBrains Mono';font-size:.74rem;letter-spacing:.06em;color:var(--muted);text-shadow:0 1px 10px #000}
+  .scrollhint{position:absolute;bottom:60px;left:clamp(26px,7vw,90px);font-family:'JetBrains Mono';font-size:.62rem;letter-spacing:.28em;color:var(--faint);text-transform:uppercase;display:flex;align-items:center;gap:12px}
+  .scrollhint .ln{width:54px;height:1px;background:var(--faint);transform-origin:left;animation:slide 2.4s var(--ease) infinite}
+  @keyframes slide{0%{transform:scaleX(0)}50%{transform:scaleX(1)}100%{transform:scaleX(0);transform-origin:right}}
+
+  .btn{font-family:'JetBrains Mono';font-size:.78rem;letter-spacing:.06em;padding:14px 26px;border-radius:3px;transition:transform .3s var(--ease),filter .3s,border-color .3s,background .3s;text-transform:uppercase;display:inline-block}
+  .btn.fill{background:var(--ember);color:var(--base);font-weight:500}
+  .btn.fill:hover{filter:brightness(1.08);transform:translateY(-2px)}
+  .btn.line{border:1px solid var(--line-2);color:var(--text)}
+  .btn.line:hover{border-color:var(--ember);transform:translateY(-2px)}
+
+  /* solid content sheet over the 3D (no blur) */
+  .sheet{background:var(--sheet);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 clamp(26px,7vw,90px)}
+  section.s{padding:clamp(64px,11vh,140px) 0;border-bottom:1px solid var(--line)}
+  section.s:last-child{border-bottom:none}
+  .lead{font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(1.7rem,4.6vw,3.4rem);line-height:1.06;letter-spacing:-.015em;max-width:18ch}
+  .lead .em{color:var(--ember)}
+  .body{margin-top:26px;max-width:62ch;color:var(--muted);font-size:1.08rem;font-weight:300}
+  .h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(1.5rem,3.6vw,2.5rem);letter-spacing:-.01em}
+  .num{font-family:'Bricolage Grotesque';font-weight:700;color:var(--faint);font-variant-numeric:tabular-nums}
+
+  /* 5 passos — numbered flow, not cards */
+  .flow{margin-top:46px;display:grid;gap:0;border-top:1px solid var(--line)}
+  @media(min-width:880px){.flow{grid-template-columns:repeat(5,1fr);border-top:none}}
+  .flow .st{padding:24px 22px 24px 0;border-bottom:1px solid var(--line)}
+  @media(min-width:880px){.flow .st{border-bottom:none;border-top:1px solid var(--line);padding:24px 22px 0 0}}
+  .flow .st .n{font-family:'JetBrains Mono';font-size:.72rem;color:var(--ember)}
+  .flow .st h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:1.05rem;margin-top:12px}
+  .flow .st p{color:var(--faint);font-size:.86rem;margin-top:6px}
+
+  /* o que constrói — rows with full hairline rules */
+  .rows{margin-top:44px}
+  .row{display:grid;grid-template-columns:auto 1fr;gap:clamp(18px,4vw,52px);align-items:baseline;padding:26px 0;border-top:1px solid var(--line)}
+  .row:last-child{border-bottom:1px solid var(--line)}
+  .row .rn{font-family:'JetBrains Mono';font-size:.8rem;color:var(--ember);padding-top:4px}
+  .row h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(1.2rem,2.6vw,1.7rem)}
+  .row p{color:var(--muted);margin-top:6px;font-weight:300;max-width:54ch}
+
+  /* trilhas — editorial numbered list, principal emphasized by tint (no side-stripe) */
+  .tracks{margin-top:44px;border-top:1px solid var(--line)}
+  .track{display:grid;grid-template-columns:auto 1fr auto;gap:clamp(16px,4vw,46px);align-items:baseline;padding:24px clamp(14px,3vw,28px);border-bottom:1px solid var(--line);transition:background .4s}
+  .track:hover{background:oklch(0.6 0.05 55/.05)}
+  .track.lead-row{background:oklch(0.6 0.12 50/.08)}
+  .track .tn{font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(1.4rem,3vw,2.1rem);color:var(--faint)}
+  .track.lead-row .tn{color:var(--ember)}
+  .track h4{font-family:'Bricolage Grotesque';font-weight:700;font-size:clamp(1.05rem,2.2vw,1.4rem)}
+  .track p{color:var(--muted);font-size:.92rem;font-weight:300;margin-top:5px;max-width:60ch}
+  .track .lv{font-family:'JetBrains Mono';font-size:.66rem;letter-spacing:.08em;color:var(--faint);white-space:nowrap;text-transform:uppercase}
+  .track .pill{font-family:'JetBrains Mono';font-size:.6rem;letter-spacing:.1em;color:var(--ember);border:1px solid var(--ember);border-radius:2px;padding:2px 7px;margin-left:8px}
+
+  /* corredores — tag row, not cards */
+  .tags{margin-top:38px;display:flex;flex-wrap:wrap;gap:10px}
+  .tag{display:inline-flex;align-items:center;gap:9px;border:1px solid var(--line-2);border-radius:3px;padding:11px 16px;font-size:.92rem;transition:border-color .3s,color .3s}
+  .tag:hover{border-color:var(--ember)}
+  .tag .ti{font-size:1.05rem}
+  .tag small{color:var(--faint);font-family:'JetBrains Mono';font-size:.66rem;letter-spacing:.04em}
+
+  /* pra quem / pre-req */
+  .two{display:grid;gap:48px;margin-top:8px}
+  @media(min-width:780px){.two{grid-template-columns:1fr 1fr}}
+  .two h3{font-family:'Bricolage Grotesque';font-weight:700;font-size:1.4rem;margin-bottom:14px}
+  .two li{list-style:none;display:flex;gap:13px;padding:12px 0;border-bottom:1px solid var(--line);color:var(--muted)}
+  .two li .m{color:var(--ember);font-family:'JetBrains Mono'}
+
+  /* preços — bordered blocks, no glass/glow */
+  .plans{display:grid;gap:0;margin-top:46px;border:1px solid var(--line-2);border-radius:5px;overflow:hidden}
+  @media(min-width:780px){.plans{grid-template-columns:1fr 1fr}}
+  .plan{padding:clamp(28px,4vw,44px);display:flex;flex-direction:column}
+  .plan+.plan{border-top:1px solid var(--line-2)}
+  @media(min-width:780px){.plan+.plan{border-top:none;border-left:1px solid var(--line-2)}}
+  .plan.hot{background:oklch(0.6 0.12 50/.07)}
+  .plan .kind{font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
+  .plan .badge{color:var(--ember);border:1px solid var(--ember);border-radius:2px;padding:3px 8px;font-size:.58rem}
+  .plan .price{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(2.6rem,6vw,3.6rem);margin-top:16px}
+  .plan .note{color:var(--faint);font-size:.86rem;margin-top:2px}
+  .plan ul{list-style:none;margin:26px 0;display:flex;flex-direction:column;gap:12px;flex:1}
+  .plan li{display:flex;gap:11px;color:var(--muted);font-size:.94rem;font-weight:300}
+  .plan li .m{color:var(--ember)}
+  .plan .btn{text-align:center}
+
+  /* faq */
+  .faq{margin-top:40px;max-width:760px}
+  .faq details{border-top:1px solid var(--line);padding:20px 0}
+  .faq details:last-child{border-bottom:1px solid var(--line)}
+  .faq summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:18px;font-family:'Bricolage Grotesque';font-weight:700;font-size:1.05rem}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .pm{color:var(--ember);font-family:'JetBrains Mono';font-size:1.3rem;transition:transform .35s}
+  .faq details[open] summary .pm{transform:rotate(45deg)}
+  .faq p{color:var(--muted);margin-top:12px;max-width:64ch;font-weight:300}
+
+  /* final — open over the 3D again */
+  .final{min-height:80vh;display:flex;flex-direction:column;justify-content:center;text-align:center;padding:0 clamp(26px,7vw,90px)}
+  .final h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:clamp(2.4rem,9vw,7rem);line-height:1;text-shadow:0 8px 48px oklch(0.05 0.01 50/.5)}
+  .final h2 .accent{color:var(--ember)}
+  .final p{margin:24px auto 0;max-width:44ch;color:var(--muted);font-weight:300;text-shadow:0 2px 16px #000}
+  footer{border-top:1px solid var(--line);background:var(--sheet);padding:30px clamp(26px,7vw,90px);display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;color:var(--faint);font-size:.78rem;font-family:'JetBrains Mono'}
+  footer a:hover{color:var(--text)}
+
+  .rv{opacity:0;transform:translateY(26px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .rv.in{opacity:1;transform:none}
+  .rv-1{transition-delay:.07s}.rv-2{transition-delay:.14s}.rv-3{transition-delay:.21s}
+  @media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none}.scrollhint .ln{animation:none}}
+</style>
+</head>
+<body>
+
+<div id="loader"><div class="lk display">INTELECTO</div><div class="bar"><i id="lbar"></i></div><div class="pct" id="lpct">ACENDENDO 0%</div></div>
+
+<canvas id="scene"></canvas>
+<div class="scrim"></div>
+<div class="hearth"></div>
+<div class="vignette"></div>
+<svg class="grain"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#n)"/></svg>
+
+<div class="hud tl mono">◆ INTELECTO / INVERNO</div>
+<nav class="hud tr">
+  <a href="https://inematds.github.io/intelecto-curso/" target="_blank" class="mono">Ementa</a>
+  <a href="#precos" class="mono">Preços</a>
+  <a href="https://inema.vip?plano=online" target="_blank" class="go mono">Garantir vaga</a>
+</nav>
+<div class="hud bl mono">-18°C lá fora</div>
+<div class="hud br mono">+ aquecido, construindo</div>
+
+<div class="content">
+  <header class="hero" id="top">
+    <div class="kicker rv in">Neste inverno, você se aquece</div>
+    <h1 class="display rv in">Construindo <span class="light">o seu</span> <span class="accent">Jarvis</span>.</h1>
+    <p class="sub rv in">Lá fora congela. Aqui dentro você acende a sua própria inteligência: um assistente multimodelo, com memória e segurança. Não se assina, se constrói.</p>
+    <div class="cta-row rv in">
+      <a href="#precos" class="btn fill">Garantir minha vaga</a>
+      <a href="#construir" class="btn line">O que você constrói</a>
+    </div>
+    <div class="meta rv in">Workshop ao vivo, 2 dias. Online R$487, presencial R$1987.</div>
+    <div class="scrollhint"><span>entre no iglu</span><span class="ln"></span></div>
+  </header>
+
+  <main class="sheet">
+    <div class="wrap">
+
+      <section class="s">
+        <p class="lead rv">Frameworks de IA são <span class="em">inchados</span>. O seu Jarvis não precisa ser.</p>
+        <p class="body rv rv-1">A maioria dos agentes te prende numa torre de dependências e numa caixa fechada, fria. Aqui é o oposto: uma mercearia de features. Você escolhe o que entra, entende cada componente, e o Claude Code constrói junto com você, ao vivo, em 2 dias. O calor vem de fazer.</p>
+      </section>
+
+      <section class="s">
+        <h2 class="h2 display rv">Cinco passos até a fagulha pegar</h2>
+        <div class="flow rv rv-1">
+          <div class="st"><div class="n">01</div><h4>Selecionar ingredientes</h4><p>As features do seu Jarvis</p></div>
+          <div class="st"><div class="n">02</div><h4>Gerar documento</h4><p>O ingredients.md</p></div>
+          <div class="st"><div class="n">03</div><h4>Passar ao Claude Code</h4><p>"Leia e construa"</p></div>
+          <div class="st"><div class="n">04</div><h4>Responder perguntas</h4><p>Docker? Qual modelo?</p></div>
+          <div class="st"><div class="n">05</div><h4>Assistente aceso</h4><p>No Telegram, agora</p></div>
+        </div>
+      </section>
+
+      <section class="s" id="construir">
+        <h2 class="h2 display rv">O que você vai construir</h2>
+        <p class="body rv rv-1">Um assistente de verdade: quente, rápido e blindado. Não um chatbot de demonstração.</p>
+        <div class="rows rv rv-2">
+          <div class="row"><div class="rn">01</div><div><h4>Nos seus canais</h4><p>Telegram, WhatsApp, Discord e voz. Ele vive onde você já está.</p></div></div>
+          <div class="row"><div class="rn">02</div><div><h4>Diversos modelos</h4><p>OpenRouter com mais de 100 modelos e Ollama local. Troca o cérebro sem reescrever nada.</p></div></div>
+          <div class="row"><div class="rn">03</div><div><h4>Memória própria</h4><p>Busca SQLite (FTS5 + BM25): ele lembra de você, das conversas e do contexto.</p></div></div>
+          <div class="row"><div class="rn">04</div><div><h4>Segurança zero-trust</h4><p>Proteção contra prompt injection, criptografia, sandbox e aprovação antes de agir.</p></div></div>
+        </div>
+      </section>
+
+      <section class="s" id="trilhas">
+        <h2 class="h2 display rv">Seis trilhas, do zero ao expert</h2>
+        <p class="body rv rv-1">Independentes, mas conectadas ao todo. Da filosofia à segurança avançada de IA.</p>
+        <div class="tracks rv rv-2">
+          <div class="track"><div class="tn">01</div><div><h4>Fundamentos</h4><p>Filosofia sem framework inchado, arquitetura dos 5 componentes e setup do ambiente.</p></div><div class="lv">~3h · Iniciante</div></div>
+          <div class="track"><div class="tn">02</div><div><h4>Identidade e Canais</h4><p>SOUL.md, perfis, Telegram, WhatsApp, Discord e memória SQLite.</p></div><div class="lv">~3h · Iniciante</div></div>
+          <div class="track lead-row"><div class="tn">03</div><div><h4>Segurança Zero-Trust <span class="pill">Principal</span></h4><p>Prompt injection, Fernet com PBKDF2, WASM sandbox, gates de aprovação e audit trail.</p></div><div class="lv">~5h · Avançado</div></div>
+          <div class="track"><div class="tn">04</div><div><h4>Memória e Integrações</h4><p>OpenRouter, Ollama, Google Workspace, GitHub e automação com webhooks.</p></div><div class="lv">~4h · Intermed.</div></div>
+          <div class="track"><div class="tn">05</div><div><h4>Arquiteturas Avançadas</h4><p>Os 6 padrões Claw, multi-agentes TinyClaw, Agent Zero e aprendizado contínuo.</p></div><div class="lv">~4h · Avançado</div></div>
+          <div class="track"><div class="tn">06</div><div><h4>Projeto Final: seu Jarvis</h4><p>Planejamento, ingredients.md, deploy Docker, monitoramento e roadmap.</p></div><div class="lv">~2h · Expert</div></div>
+        </div>
+        <div style="margin-top:30px" class="rv"><a href="https://inematds.github.io/intelecto-curso/" target="_blank" class="btn line">Ver ementa completa</a></div>
+      </section>
+
+      <section class="s">
+        <h2 class="h2 display rv">Oito corredores de features</h2>
+        <p class="body rv rv-1">Uma mercearia. Você escolhe o que entra no seu assistente, sem monolito.</p>
+        <div class="tags rv rv-2">
+          <span class="tag"><span class="ti">🧬</span> Identidade <small>SOUL.md</small></span>
+          <span class="tag"><span class="ti">🛡</span> Segurança <small>WASM, gates</small></span>
+          <span class="tag"><span class="ti">💬</span> Canais <small>WhatsApp, voz</small></span>
+          <span class="tag"><span class="ti">🧠</span> Memória <small>SQLite, BM25</small></span>
+          <span class="tag"><span class="ti">⚙</span> Automação <small>Cron, sub-agentes</small></span>
+          <span class="tag"><span class="ti">🔗</span> Integrações <small>OpenRouter, MCP</small></span>
+          <span class="tag"><span class="ti">🧰</span> Skills <small>Google, GitHub</small></span>
+          <span class="tag"><span class="ti">🏗</span> Arquiteturas <small>6 padrões Claw</small></span>
+        </div>
+      </section>
+
+      <section class="s">
+        <div class="two">
+          <div class="rv">
+            <h3 class="display">Pra quem é</h3>
+            <ul>
+              <li><span class="m">→</span> Quem quer um assistente de IA seu, não mais uma assinatura.</li>
+              <li><span class="m">→</span> Devs e curiosos que querem entender agentes de verdade.</li>
+              <li><span class="m">→</span> Quem já usa IA e quer ir do "uso" para o "construo".</li>
+              <li><span class="m">→</span> Quem se importa com privacidade e quer rodar local.</li>
+            </ul>
+          </div>
+          <div class="rv rv-1">
+            <h3 class="display">Pré-requisitos</h3>
+            <ul>
+              <li><span class="m">·</span> Um computador (Windows, Mac ou Linux) e internet.</li>
+              <li><span class="m">·</span> Vontade de mexer no terminal. Guiamos do zero.</li>
+              <li><span class="m">·</span> Não precisa saber programar. Sério.</li>
+              <li><span class="m">·</span> Uma conta no Telegram para testar.</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section class="s" id="precos">
+        <h2 class="h2 display rv">Escolha como se aquecer</h2>
+        <p class="body rv rv-1">2 dias ao vivo, do zero ao seu Jarvis aceso. Vagas limitadas.</p>
+        <div class="plans rv rv-2">
+          <div class="plan">
+            <div class="kind">Online</div>
+            <div class="price">R$487</div>
+            <div class="note">Ao vivo, de onde você estiver.</div>
+            <ul>
+              <li><span class="m">✓</span> 2 dias de workshop ao vivo</li>
+              <li><span class="m">✓</span> Acesso às 6 trilhas e ao material</li>
+              <li><span class="m">✓</span> Construção guiada do seu assistente</li>
+              <li><span class="m">✓</span> Comunidade INEMA.VIP</li>
+            </ul>
+            <a href="https://inema.vip?plano=online" target="_blank" class="btn line">Quero a vaga online</a>
+          </div>
+          <div class="plan hot">
+            <div class="kind">Presencial <span class="badge mono">Completa</span></div>
+            <div class="price">R$1987</div>
+            <div class="note">Próxima turma, vagas limitadas.</div>
+            <ul>
+              <li><span class="m">✓</span> Tudo do online, presencialmente</li>
+              <li><span class="m">✓</span> Acompanhamento mão na massa, ao seu lado</li>
+              <li><span class="m">✓</span> Networking com a turma</li>
+              <li><span class="m">✓</span> Sai com o assistente aceso no fim</li>
+            </ul>
+            <a href="https://inema.vip?plano=presencial" target="_blank" class="btn fill">Quero a vaga presencial</a>
+          </div>
+        </div>
+        <p class="mono rv" style="color:var(--faint);font-size:.72rem;margin-top:18px">Inscrição e pagamento via INEMA.VIP.</p>
+      </section>
+
+      <section class="s">
+        <h2 class="h2 display rv">Perguntas frequentes</h2>
+        <div class="faq rv rv-1">
+          <details><summary>Preciso saber programar? <span class="pm">+</span></summary><p>Não. Começamos do zero, incluindo o setup. O Claude Code constrói junto com você; seu papel é decidir o que o assistente faz.</p></details>
+          <details><summary>Qual a diferença entre online e presencial? <span class="pm">+</span></summary><p>O conteúdo é o mesmo. No presencial você tem acompanhamento mão na massa ao seu lado e networking com a turma. No online você participa ao vivo de onde estiver.</p></details>
+          <details><summary>Preciso pagar pelos modelos de IA? <span class="pm">+</span></summary><p>Você aprende a usar OpenRouter (pago por uso, centavos) e modelos locais com Ollama (de graça, na sua máquina).</p></details>
+          <details><summary>Saio do workshop com algo pronto? <span class="pm">+</span></summary><p>Sim. O objetivo é terminar com um assistente seu funcionando no Telegram, com as features que você escolheu.</p></details>
+          <details><summary>Onde vejo o conteúdo completo? <span class="pm">+</span></summary><p>A ementa detalhada está em <a href="https://inematds.github.io/intelecto-curso/" target="_blank" style="color:var(--ember)">inematds.github.io/intelecto-curso</a>.</p></details>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <section class="final">
+    <h2 class="display rv in">Neste inverno,<br>acenda o seu <span class="accent">Jarvis</span>.</h2>
+    <p class="rv in">Pare de assinar a inteligência dos outros. Construa, e aqueça-se com, a sua.</p>
+    <div class="cta-row rv in" style="justify-content:center;display:flex;gap:14px;margin-top:36px"><a href="#precos" class="btn fill">Garantir minha vaga</a></div>
+    <p class="mono rv in" style="color:var(--gold);font-size:.72rem;margin-top:16px;text-shadow:0 1px 8px #000">ONLINE R$487 · PRESENCIAL R$1987</p>
+  </section>
+
+  <footer>
+    <span>© <span id="yr"></span> INTELECTO · INEMA</span>
+    <span style="display:flex;gap:20px">
+      <a href="https://inematds.github.io/intelecto-curso/" target="_blank">Ementa</a>
+      <a href="#precos">Preços</a>
+      <a href="https://inema.club" target="_blank" style="color:var(--ember)">INEMA.CLUB</a>
+    </span>
+  </footer>
+</div>
+
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/",
+  "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.mjs"
+}}
+</script>
+<script type="module">
+document.getElementById('yr').textContent = new Date().getFullYear();
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const io = new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}}),{threshold:.12});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+function finishLoad(){ const l=document.getElementById('loader'); if(l && !l.classList.contains('done')) l.classList.add('done'); }
+
+try {
+  const THREE = await import('three');
+  const { EffectComposer } = await import('three/addons/postprocessing/EffectComposer.js');
+  const { RenderPass } = await import('three/addons/postprocessing/RenderPass.js');
+  const { UnrealBloomPass } = await import('three/addons/postprocessing/UnrealBloomPass.js');
+  const { OutputPass } = await import('three/addons/postprocessing/OutputPass.js');
+  const { RoomEnvironment } = await import('three/addons/environments/RoomEnvironment.js');
+  let Lenis=null; try{ Lenis=(await import('lenis')).default; }catch(_){}
+
+  const COLD_BG = 0x222730;
+  const canvas = document.getElementById('scene');
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio,2));
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.toneMapping = THREE.ACESFilmicToneMapping; renderer.toneMappingExposure = 0.92;
+  const _gl=renderer.getContext(), _dbg=_gl.getExtension('WEBGL_debug_renderer_info');
+  const _rend=_dbg?String(_gl.getParameter(_dbg.UNMASKED_RENDERER_WEBGL)):'';
+  const SOFT=/swiftshader|llvmpipe|software|basic render/i.test(_rend);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(COLD_BG);
+  scene.fog = new THREE.Fog(COLD_BG, 8, 30);
+  const pmrem = new THREE.PMREMGenerator(renderer);
+  scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  const camera = new THREE.PerspectiveCamera(42, innerWidth/innerHeight, .1, 120);
+
+  const tGeo = new THREE.PlaneGeometry(160,160,140,140); tGeo.rotateX(-Math.PI/2);
+  const pp = tGeo.attributes.position;
+  for(let i=0;i<pp.count;i++){ const x=pp.getX(i), z=pp.getZ(i), d=Math.hypot(x,z);
+    const ridge=Math.min(1,Math.max(0,(d-9)/40));
+    let h=Math.sin(x*0.12)*1.1+Math.cos(z*0.10)*0.9+Math.sin((x+z)*0.06)*1.6+Math.sin(x*0.4+z*0.3)*0.25;
+    pp.setY(i, h*ridge-1.6+Math.random()*0.05); }
+  tGeo.computeVertexNormals();
+  scene.add(new THREE.Mesh(tGeo, new THREE.MeshStandardMaterial({ color:0x7e8a99, roughness:0.96 })));
+
+  const igloo=new THREE.Group(); const R=2.15;
+  const glass=new THREE.MeshPhysicalMaterial({ color:0xcfe9f6, metalness:0, roughness:0.12, transmission:SOFT?0:0.9, thickness:1.1, ior:1.34, clearcoat:0.7, clearcoatRoughness:0.25, transparent:true, opacity:SOFT?0.94:1, envMapIntensity:1.2, emissive:0x123347, emissiveIntensity:SOFT?0.35:0.25, attenuationColor:0xffb27a, attenuationDistance:2.6 });
+  const edgeMat=new THREE.LineBasicMaterial({ color:0xcfeefe, transparent:true, opacity:0.85 });
+  const rings=[{phi:8,n:1},{phi:24,n:8},{phi:40,n:12},{phi:56,n:16},{phi:72,n:18},{phi:86,n:20}]; const deg=d=>d*Math.PI/180;
+  rings.forEach((ring,ri)=>{ const phi=deg(ring.phi);
+    for(let k=0;k<ring.n;k++){ const theta=(k/ring.n)*Math.PI*2+(ri%2)*0.12;
+      if(ri>=4){ let a=theta%(Math.PI*2); if(a>Math.PI)a-=Math.PI*2; if(Math.abs(a-Math.PI/2)<0.42) continue; }
+      const x=R*Math.sin(phi)*Math.cos(theta), y=R*Math.cos(phi), z=R*Math.sin(phi)*Math.sin(theta);
+      const w=(2*Math.PI*R*Math.max(0.2,Math.sin(phi)))/ring.n*(0.82+Math.random()*0.12);
+      const h=(ri===0?R*0.5:R*deg(16))*(0.82+Math.random()*0.16);
+      const blk=new THREE.Mesh(new THREE.BoxGeometry(w,h,0.34), glass);
+      blk.position.set(x,y,z); blk.lookAt(0,0,0); blk.rotateZ(Math.random()*0.1-0.05); igloo.add(blk);
+      const e=new THREE.LineSegments(new THREE.EdgesGeometry(blk.geometry), edgeMat);
+      e.position.copy(blk.position); e.quaternion.copy(blk.quaternion); igloo.add(e); } });
+  igloo.position.y=-1.05; scene.add(igloo);
+
+  const core=new THREE.PointLight(0xff7a2e,14,12,2); core.position.set(0,0.1,0); igloo.add(core);
+  const coreOrb=new THREE.Mesh(new THREE.SphereGeometry(0.55,24,24), new THREE.MeshBasicMaterial({color:0xff9a4a})); coreOrb.position.set(0,0.05,0); igloo.add(coreOrb);
+  const coreGlow=new THREE.Mesh(new THREE.SphereGeometry(0.95,24,24), new THREE.MeshBasicMaterial({color:0xff6a1f,transparent:true,opacity:0.28})); coreGlow.position.copy(coreOrb.position); igloo.add(coreGlow);
+
+  scene.add(new THREE.HemisphereLight(0x9fb4cc,0x2a323d,0.5));
+  const sun=new THREE.DirectionalLight(0xcfe0f2,0.7); sun.position.set(8,12,6); scene.add(sun);
+  const rim=new THREE.DirectionalLight(0x7fb6ff,0.9); rim.position.set(-6,4,-8); scene.add(rim);
+  const warmFill=new THREE.PointLight(0xff8c3a,4,8,2); warmFill.position.set(0,-0.6,1.6); scene.add(warmFill);
+
+  const SN=700, sp=new Float32Array(SN*3);
+  for(let i=0;i<SN;i++){ sp[i*3]=(Math.random()-.5)*60; sp[i*3+1]=Math.random()*30; sp[i*3+2]=(Math.random()-.5)*60; }
+  const snow=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(sp,3)), new THREE.PointsMaterial({color:0xffffff,size:0.06,transparent:true,opacity:0.6,depthWrite:false})); scene.add(snow);
+  const EM=160, ep=new Float32Array(EM*3);
+  for(let i=0;i<EM;i++){ ep[i*3]=(Math.random()-.5)*4; ep[i*3+1]=Math.random()*4-1; ep[i*3+2]=(Math.random()-.5)*4; }
+  const embers=new THREE.Points(new THREE.BufferGeometry().setAttribute('position',new THREE.BufferAttribute(ep,3)), new THREE.PointsMaterial({color:0xff8a3a,size:0.07,transparent:true,opacity:0.85,depthWrite:false,blending:THREE.AdditiveBlending}));
+  embers.position.set(0,-1.0,0); scene.add(embers);
+
+  const composer=new EffectComposer(renderer);
+  composer.addPass(new RenderPass(scene,camera));
+  composer.addPass(new UnrealBloomPass(new THREE.Vector2(innerWidth,innerHeight),1.05,0.7,0.5));
+  composer.addPass(new OutputPass());
+
+  let lenis=null; if(Lenis && !reduce) lenis=new Lenis({lerp:0.09,smoothWheel:true});
+  let mx=0,my=0; addEventListener('pointermove',e=>{mx=(e.clientX/innerWidth-.5);my=(e.clientY/innerHeight-.5);},{passive:true});
+  const tmp=new THREE.Vector3(), look=new THREE.Vector3(0,-0.6,0);
+  function camFromProgress(p){ const az=-0.5+p*Math.PI*1.7, rad=8.2-p*3.4, hgt=2.4-p*1.3+Math.sin(p*6)*0.15;
+    tmp.set(Math.cos(az)*rad+mx*1.2, hgt+my*0.6, Math.sin(az)*rad); camera.position.lerp(tmp,0.06); camera.lookAt(look); }
+  camera.position.set(Math.cos(-0.5)*8.2,2.4,Math.sin(-0.5)*8.2); camera.lookAt(look);
+  function progress(){ if(lenis) return lenis.limit?Math.min(1,lenis.scroll/lenis.limit):0; const m=document.documentElement.scrollHeight-innerHeight; return m>0?Math.min(1,scrollY/m):0; }
+  function resize(){ camera.aspect=innerWidth/innerHeight; camera.updateProjectionMatrix(); renderer.setSize(innerWidth,innerHeight); composer.setSize(innerWidth,innerHeight); }
+  addEventListener('resize',resize);
+
+  let t=0;
+  function frame(time){ if(lenis) lenis.raf(time); t+=reduce?0:0.005;
+    const p=progress(); camFromProgress(p);
+    igloo.rotation.y=p*0.6+t*0.05;
+    core.intensity=12+Math.sin(t*9)*2.2+Math.sin(t*23)*1.2; warmFill.intensity=3.5+Math.sin(t*7)*1.2;
+    coreGlow.material.opacity=0.24+Math.sin(t*9)*0.06; coreGlow.scale.setScalar(1+Math.sin(t*5)*0.06);
+    const a=snow.geometry.attributes.position; for(let i=0;i<SN;i++){ let y=a.getY(i)-0.03-(i%5)*0.004; if(y<-2)y=30; a.setY(i,y); a.setX(i,a.getX(i)+0.004);} a.needsUpdate=true;
+    const b=embers.geometry.attributes.position; for(let i=0;i<EM;i++){ let y=b.getY(i)+0.012+(i%4)*0.002; if(y>6)y=-1; b.setY(i,y); b.setX(i,b.getX(i)+Math.sin(t+i)*0.002);} b.needsUpdate=true;
+    if(SOFT) renderer.render(scene,camera); else composer.render();
+    requestAnimationFrame(frame); }
+  requestAnimationFrame(frame);
+
+  let lp=0; const li=setInterval(()=>{ lp=Math.min(100,lp+Math.random()*22);
+    document.getElementById('lbar').style.width=lp+'%'; document.getElementById('lpct').textContent='ACENDENDO '+Math.round(lp)+'%';
+    if(lp>=100){ clearInterval(li); setTimeout(finishLoad,400);} },180);
+} catch(err){ console.error('3D init falhou:', err);
+  document.body.style.background='radial-gradient(60% 50% at 50% 65%, oklch(0.5 0.16 50/.22), transparent 60%), radial-gradient(circle at 50% 20%, oklch(0.2 0.01 250), oklch(0.12 0.01 50) 70%)';
+  finishLoad(); }
+setTimeout(finishLoad, 7000);
+</script>
+</body>
+</html>
