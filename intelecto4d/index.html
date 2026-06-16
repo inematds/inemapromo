@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INTELECTO — versões corrigidas (crítica /impeccable)</title>
-<meta name="description" content="Landpages do workshop INTELECTO corrigidas pela crítica de design: de 13 antipadrões para 0. Versão quente e versão fria.">
+<title>INTELECTO — versões da landpage (índice)</title>
+<meta name="description" content="As versões da landpage do workshop INTELECTO — do zero ao seu Jarvis em 2 dias. Workshop ao vivo, inverno, iglu e versão glacial.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=Hanken+Grotesk:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -29,26 +29,22 @@
   ::selection{background:var(--ice);color:var(--base)}
   .display{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;letter-spacing:-.015em;line-height:1}
   .mono{font-family:'JetBrains Mono',monospace;letter-spacing:.04em}
-  .wrap{max-width:920px;margin:0 auto;padding:clamp(48px,9vh,110px) clamp(24px,6vw,40px)}
+  .wrap{max-width:960px;margin:0 auto;padding:clamp(48px,9vh,110px) clamp(24px,6vw,40px)}
 
   header .kick{font-family:'JetBrains Mono';font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:12px}
   header .kick::before{content:"";width:30px;height:1px;background:var(--faint)}
-  header h1{font-size:clamp(2.2rem,6vw,4rem);margin-top:22px;max-width:16ch}
-  header p{color:var(--muted);margin-top:18px;max-width:60ch;font-weight:300;font-size:1.06rem}
-  .stat{display:inline-flex;align-items:baseline;gap:10px;margin-top:24px;font-family:'JetBrains Mono';font-size:.8rem;color:var(--muted)}
-  .stat b{font-family:'Bricolage Grotesque';font-size:1.4rem;color:var(--ice)}
-  .stat .arrow{color:var(--faint)}
+  header h1{font-size:clamp(2.2rem,6vw,4rem);margin-top:22px;max-width:17ch}
+  header p.sub{color:var(--muted);margin-top:18px;max-width:60ch;font-weight:300;font-size:1.06rem}
 
-  .pair{margin-top:54px;display:grid;gap:16px}
-  @media(min-width:760px){.pair{grid-template-columns:1fr 1fr}}
-  .opt{display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:6px;padding:30px;background:var(--panel);transition:transform .4s var(--ease),border-color .4s}
+  .grid{margin-top:50px;display:grid;gap:14px}
+  @media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+  .opt{position:relative;display:flex;flex-direction:column;border:1px solid var(--line-2);border-radius:6px;padding:26px;background:var(--panel);transition:transform .4s var(--ease),border-color .4s}
   .opt:hover{transform:translateY(-4px)}
-  .opt.warm:hover{border-color:var(--ember)}
-  .opt.cold:hover{border-color:var(--ice)}
-  .opt .tagline{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.16em;text-transform:uppercase}
-  .opt.warm .tagline{color:var(--ember)} .opt.cold .tagline{color:var(--ice)}
-  .opt h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.7rem;margin-top:12px}
-  .opt p{color:var(--muted);font-size:.94rem;margin-top:8px;font-weight:300;flex:1}
+  .opt.warm:hover{border-color:var(--ember)} .opt.cold:hover{border-color:var(--ice)}
+  .opt .file{font-family:'JetBrains Mono';font-size:.68rem;letter-spacing:.04em;color:var(--faint);display:flex;align-items:center;gap:8px}
+  .opt .file .badge{font-size:.58rem;letter-spacing:.14em;text-transform:uppercase;padding:2px 7px;border-radius:99px;border:1px solid oklch(0.82 0.1 226/.45);color:var(--ice)}
+  .opt h2{font-family:'Bricolage Grotesque';font-weight:800;font-size:1.5rem;margin-top:12px;line-height:1.15}
+  .opt p{color:var(--muted);font-size:.92rem;margin-top:8px;font-weight:300;flex:1}
   .opt .open{margin-top:22px;font-family:'JetBrains Mono';font-size:.76rem;letter-spacing:.06em;text-transform:uppercase}
   .opt.warm .open{color:var(--ember)} .opt.cold .open{color:var(--ice)}
 
@@ -63,33 +59,42 @@
 <body>
 <div class="wrap">
   <header>
-    <p class="kick">INTELECTO · crítica de design</p>
-    <h1 class="display">Versões corrigidas das landpages.</h1>
-    <p>As duas landpages abaixo passaram pela crítica <span class="mono" style="color:var(--text)">/impeccable</span> e foram refeitas: tipografia com voz, sem gradiente em texto, sem vidro decorativo, listas editoriais no lugar de cards repetidos, paleta em OKLCH. Mesmo conceito de iglu 3D, "frio fora, calor dentro".</p>
-    <span class="stat"><span>Antipadrões do detector:</span> <b>13</b> <span class="arrow">→</span> <b>0</b></span>
+    <p class="kick">INTELECTO · versões da landpage</p>
+    <h1 class="display">Do zero ao seu Jarvis em 2 dias.</h1>
+    <p class="sub">Quatro versões da landpage do workshop <strong style="color:var(--text);font-weight:500">INTELECTO</strong>. Mesmo conceito — o iglu 3D, frio fora e calor dentro — em quatro vozes visuais. Abra e escolha.</p>
   </header>
 
-  <div class="pair">
+  <div class="grid">
+    <a class="opt cold" href="workshop.html">
+      <div class="file">workshop.html <span class="badge">principal</span></div>
+      <h2>Workshop ao vivo · 2 dias</h2>
+      <p>A página principal: do zero ao seu Jarvis em dois dias, ao vivo.</p>
+      <div class="open">Abrir →</div>
+    </a>
     <a class="opt warm" href="inverno.html">
-      <div class="tagline">Quente · Inverno</div>
+      <div class="file">inverno.html</div>
       <h2>Você se aquece construindo</h2>
-      <p>Casca de gelo, coração de fogo. O núcleo do iglu acende em brasa enquanto lá fora neva; texto e interface em âmbar.</p>
-      <div class="open">Abrir versão quente →</div>
+      <p>Frio fora, calor dentro: o núcleo do iglu acende em brasa enquanto lá fora neva.</p>
+      <div class="open">Abrir →</div>
+    </a>
+    <a class="opt cold" href="igloo.html">
+      <div class="file">igloo.html</div>
+      <h2>Inteligência congelada</h2>
+      <p>O conceito do iglu 3D — abertura glacial, do zero ao seu Jarvis.</p>
+      <div class="open">Abrir →</div>
     </a>
     <a class="opt cold" href="igloo-pro.html">
-      <div class="tagline">Fria · Glacial</div>
-      <h2>Do zero ao seu Jarvis</h2>
-      <p>Inteligência congelada. Iglu de vidro com brilho cyan, neve e câmera que orbita no scroll; paleta gelo de ponta a ponta.</p>
-      <div class="open">Abrir versão fria →</div>
+      <div class="file">igloo-pro.html</div>
+      <h2>Experiência glacial</h2>
+      <p>Iglu de vidro, câmera que orbita no scroll, paleta gelo de ponta a ponta.</p>
+      <div class="open">Abrir →</div>
     </a>
   </div>
 
   <div class="more">
     <span class="lbl">Mais</span>
-    <a href="CRITICA.md">Ler a crítica completa</a>
-    <a href="../intelecto4d/inverno.html">Original quente (antes)</a>
-    <a href="../intelecto4d/igloo-pro.html">Original fria (antes)</a>
-    <a href="../">Todas as versões</a>
+    <a href="../critica/index.html">Versões corrigidas pela crítica /impeccable</a>
+    <a href="../">Índice geral (todas as pastas)</a>
   </div>
 
   <footer>
